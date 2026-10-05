@@ -1,20 +1,21 @@
 """
-Scan Simulation Module for Humanitarian Warehouse Emergency Relief Kits.
+Scan Simulation & Trail Logging Module for Humanitarian Warehouse Emergency Relief Kits.
 
-This module simulates barcode/RFID scanner inputs, logs physical scan events with timestamps,
-and persists scan history to CSV format.
+Manages recording physical scan events, scan trails (Put-Away, Move Events, Pick Failures, Cycle Counts),
+and persistent CSV logging.
 """
 
 import os
 import pandas as pd
 from datetime import datetime
-from typing import Tuple
+from typing import Tuple, Dict, Any
 
 
 class ScanManager:
-    """Manages recording, loading, and persistence of warehouse scan events."""
+    """Manages recording, loading, and persistence of warehouse scan events and scan trails."""
 
-    REQUIRED_COLUMNS = ["Scan ID", "Item ID", "Actual Location", "Timestamp"]
+    REQUIRED_COLUMNS = ["Scan ID", "Item ID", "Event Type", "Location", "Timestamp", "Notes"]
+    EVENT_TYPES = ["PUT_AWAY", "PICK_FAILURE", "MOVE_EVENT", "CYCLE_COUNT"]
 
     def __init__(self, history_path: str = "data/scan_history.csv"):
         """
@@ -36,13 +37,13 @@ class ScanManager:
         """
         Load scan history from CSV file.
 
-        :return: DataFrame containing historical scan records.
+        :return: DataFrame containing historical scan records and event types.
         """
         try:
             df = pd.read_csv(self.history_path)
             for col in self.REQUIRED_COLUMNS:
                 if col not in df.columns:
-                    df[col] = None
+                    df[col] = "CYCLE_COUNT" if col == "Event Type" else None
             return df
         except Exception as e:
             print(f"Error loading scan history from {self.history_path}: {e}")
@@ -57,19 +58,25 @@ class ScanManager:
             print(f"Error saving scan history to {self.history_path}: {e}")
             return False
 
-    def record_scan(self, item_id: str, actual_location: str) -> Tuple[bool, str, dict]:
+    def record_scan(self, item_id: str, location: str, event_type: str = "PUT_AWAY", notes: str = "") -> Tuple[bool, str, Dict[str, Any]]:
         """
-        Record a new scan event.
+        Record a scan event with event type (Scan Trail).
 
         :param item_id: ID of the scanned item (e.g. KIT-FOOD-001).
-        :param actual_location: Physical location where item was scanned (e.g. Shelf A-01).
+        :param location: Physical location scanned.
+        :param event_type: Type of scan event (PUT_AWAY, PICK_FAILURE, MOVE_EVENT, CYCLE_COUNT).
+        :param notes: Optional notes/comments.
         :return: Tuple of (success_flag, user_message, scan_record_dict).
         """
         item_id = item_id.strip().upper()
-        actual_location = actual_location.strip().upper()
+        location = location.strip().upper()
+        event_type = event_type.strip().upper()
 
-        if not item_id or not actual_location:
-            return False, "Item ID and Actual Location must be provided.", {}
+        if event_type not in self.EVENT_TYPES:
+            event_type = "PUT_AWAY"
+
+        if not item_id or not location:
+            return False, "Item ID and Location must be provided.", {}
 
         scans_df = self.load_scans()
 
@@ -81,13 +88,15 @@ class ScanManager:
         scan_entry = {
             "Scan ID": scan_id,
             "Item ID": item_id,
-            "Actual Location": actual_location,
-            "Timestamp": timestamp
+            "Event Type": event_type,
+            "Location": location,
+            "Timestamp": timestamp,
+            "Notes": notes.strip() if notes else f"{event_type.replace('_', ' ').title()} recorded"
         }
 
         updated_df = pd.concat([scans_df, pd.DataFrame([scan_entry])], ignore_index=True)
         if self.save_scans(updated_df):
-            return True, f"Scan recorded: Item '{item_id}' at location '{actual_location}'", scan_entry
+            return True, f"Scan trail recorded: {event_type} for '{item_id}' at '{location}'", scan_entry
         return False, "Failed to persist scan event.", {}
 
     def clear_scans(self) -> bool:

@@ -1,7 +1,7 @@
 Item ID,Item Name,Category,Expected Location,Quantity
 KIT-FOOD-001,High-Calorie Emergency Food Kit,Food Kits,Shelf A-01,150
 KIT-FOOD-002,Ready-to-Eat Meal (MRE) Pack,Food Kits,Shelf A-02,300
-KIT-WATR-001,Purified Drinking Water Packs (10L),Water Bottles,Zone B-01,500
+KIT-WATR-001,Purified Drinking Water Packs (10L),Water Bottles,SHELF A-02,500
 KIT-WATR-002,Water Purification Tablets (1000s),Water Bottles,Zone B-02,250
 KIT-MEDI-001,Trauma & First Aid Medical Kit,Medical Kits,Rack C-01,80
 KIT-MEDI-002,Emergency Surgical Module,Medical Kits,Rack C-02,25

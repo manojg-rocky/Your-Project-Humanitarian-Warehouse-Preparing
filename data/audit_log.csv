@@ -1,0 +1,3 @@
+Audit ID,Item ID,Action,Old Location,New Location,Dispatcher Name,Justification,Timestamp
+AUD-5001,KIT-WATR-001,LOCATION_OVERRIDE,Zone B-01,Shelf A-02,Supervisor Alex,Manual audit confirmed stock misplaced during rapid pallet staging,2026-10-04 11:15:00
+AUD-5002,KIT-WATR-001,LOCATION_OVERRIDE,Zone B-01,SHELF A-02,Supervisor Alex,Manual audit confirmed stock misplaced during staging,2026-10-05 10:36:55
