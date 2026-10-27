@@ -1,0 +1,8 @@
+Alert ID,Item ID,Item Name,Criticality,Discrepancy Type,Expected Location,Actual Location,Assigned Team,Status,Created At,Resolved At
+ALT-3001,KIT-WATR-001,Purified Drinking Water Packs (10L),CRITICAL,Wrong Location,SHELF A-02,ZONE B-01,Rapid Staging Team Alpha,ASSIGNED,2026-10-27 19:54:59,
+ALT-3002,KIT-WATR-002,Water Purification Tablets (1000s),HIGH,Missing / Not Scanned,ZONE B-02,N/A - Not Scanned,Unassigned,OPEN,2026-10-27 19:54:59,
+ALT-3003,KIT-MEDI-002,Emergency Surgical Module,CRITICAL,Missing / Not Scanned,RACK C-02,N/A - Not Scanned,Unassigned,OPEN,2026-10-27 19:54:59,
+ALT-3004,KIT-BLNK-001,Thermal Wool Emergency Blanket,HIGH,Wrong Location,SHELF A-03,BIN D-01,Unassigned,OPEN,2026-10-27 19:54:59,
+ALT-3005,KIT-HYGN-002,Infant Hygiene Care Kit,HIGH,Missing / Not Scanned,BIN D-02,N/A - Not Scanned,Unassigned,OPEN,2026-10-27 19:54:59,
+ALT-3006,KIT-SHTR-001,4-Person Emergency Family Tent,STANDARD,Missing / Not Scanned,RACK C-05,N/A - Not Scanned,Unassigned,OPEN,2026-10-27 19:54:59,
+ALT-3007,KIT-LGT-001,Solar Powered Emergency Lantern,STANDARD,Missing / Not Scanned,BIN D-04,N/A - Not Scanned,Unassigned,OPEN,2026-10-27 19:54:59,
